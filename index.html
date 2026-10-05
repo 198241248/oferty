@@ -1,222 +1,110 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pl">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Kalkulator wyceny mebli na wymiar." />
-    <meta name="robots" content="index, follow" />
-    <meta property="og:title" content="Kalkulator mebli na wymiar" />
-    <meta property="og:description" content="Arkusz do tworzenia i wyceny mebli na wymiar." />
-    <meta property="og:type" content="website" />
-    <title>Wycena mebli na wymiar</title>
-    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
-    <link rel="stylesheet" href="./src/index.css" />
-    <script type="module" src="./src/app.js"></script>
-  </head>
-  <body>
-    <main class="app-shell">
-      <header class="topbar">
-        <div class="brand-lockup">
-          <div class="brand-mark" aria-hidden="true">
-            <svg width="21" height="21" viewBox="0 0 24 24" fill="none">
-              <rect x="4" y="3" width="16" height="18" rx="2" stroke="currentColor" stroke-width="1.6" />
-              <path d="M8 8h8M8 12h3M8 16h8M15 11v3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
-            </svg>
-          </div>
-          <div class="brand-copy">
-            <small>Warsztat · wyceny</small>
-            <strong>Kalkulator mebli na wymiar</strong>
-          </div>
-        </div>
-        <div class="top-actions">
-          <span class="save-state" id="save-state" aria-live="polite">
-            <span class="save-dot"></span>zapis lokalny
-          </span>
-          <button class="top-btn" id="export-csv" data-testid="export-csv" type="button">Eksport CSV</button>
-          <button class="top-btn" id="print-quote" data-testid="print-quote" type="button">Drukuj</button>
-          <button class="top-btn primary" id="save-now" data-testid="save-now" type="button">Zapisz</button>
-        </div>
-      </header>
+<head>
+  <meta charset="UTF-8">
+  <title>Kalkulator Wyceny Szafek</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    h2 { color: #333; }
+    .sekcja { border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; background-color: #f9f9f9; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th, td { border: 1px solid #aaa; padding: 8px; text-align: center; }
+    th { background-color: #e0e0e0; }
+    input, select { width: 90%; padding: 4px; box-sizing: border-box; }
+    .podsumowanie { font-size: 1.2em; font-weight: bold; margin-top: 15px; }
+  </style>
+</head>
+<body>
 
-      <section class="sheet" aria-label="Arkusz wyceny mebli">
-        <div class="sheet-heading">
-          <div>
-            <div class="eyebrow">Karta kalkulacyjna / nowa wycena</div>
-            <h1>Wycena mebli na wymiar</h1>
-          </div>
-          <div class="doc-meta">
-            <div class="meta-item">TERMIN MONTAŻU<b id="meta-date"></b></div>
-            <div class="meta-item">STATUS<b>Robocza · do edycji</b></div>
-            <div class="meta-item">POZYCJE<b id="meta-count">0 elementów</b></div>
-          </div>
-        </div>
+  <h2>Kalkulator Wyceny Mebli na Wymiar</h2>
 
-        <div class="details-grid">
-          <section class="detail-panel">
-            <h2 class="group-title">Dane wykonawcy</h2>
-            <div class="field-grid company">
-              <div class="field">
-                <label for="form-company">Nazwa firmy</label>
-                <input class="sheet-input" id="form-company" data-form="company" data-testid="field-company" />
-              </div>
-              <div class="field">
-                <label>Logo / znak firmowy</label>
-                <div class="logo-placeholder">MIEJSCE NA LOGO<br />możesz uzupełnić później</div>
-              </div>
-              <div class="field">
-                <label for="form-companyAddress">Adres</label>
-                <input class="sheet-input" id="form-companyAddress" data-form="companyAddress" data-testid="field-company-address" />
-              </div>
-              <div class="field">
-                <label for="form-companyPhone">Telefon</label>
-                <input class="sheet-input" id="form-companyPhone" type="tel" data-form="companyPhone" data-testid="field-company-phone" />
-              </div>
-              <div class="field">
-                <label for="form-companyEmail">E-mail</label>
-                <input class="sheet-input" id="form-companyEmail" type="email" data-form="companyEmail" data-testid="field-company-email" />
-              </div>
-            </div>
-          </section>
+  <!-- DANE ZAMAWIAJĄCEGO -->
+  <div class="sekcja">
+    <h3>Dane Zamawiającego</h3>
+    <label>Imię i Nazwisko: <input type="text" id="klient" value="Jan Kowalski"></label><br><br>
+    <label>Adres: <input type="text" id="adres" value="Spokojna 23/3"></label><br><br>
+    <label>Wycena dla: 
+      <select id="pomieszczenie">
+        <option value="Kuchnia">Kuchnia</option>
+        <option value="Garderoba">Garderoba</option>
+        <option value="Łazienka">Łazienka</option>
+      </select>
+    </label>
+  </div>
 
-          <section class="detail-panel">
-            <h2 class="group-title">Dane zamawiającego</h2>
-            <div class="field-grid">
-              <div class="field">
-                <label for="form-client">Imię i nazwisko / firma</label>
-                <input class="sheet-input" id="form-client" data-form="client" data-testid="field-client" />
-              </div>
-              <div class="field">
-                <label for="form-clientAddress">Adres</label>
-                <input class="sheet-input" id="form-clientAddress" data-form="clientAddress" data-testid="field-client-address" />
-              </div>
-              <div class="field">
-                <label for="form-clientEmail">E-mail</label>
-                <input class="sheet-input" id="form-clientEmail" type="email" data-form="clientEmail" data-testid="field-client-email" />
-              </div>
-              <div class="field">
-                <label for="form-clientPhone">Nr telefonu</label>
-                <input class="sheet-input" id="form-clientPhone" type="tel" data-form="clientPhone" data-testid="field-client-phone" />
-              </div>
-              <div class="field">
-                <label for="form-nip">NIP</label>
-                <input class="sheet-input" id="form-nip" data-form="nip" data-testid="field-nip" />
-              </div>
-            </div>
-          </section>
+  <!-- TABELA Z WYCENĄ SZAFEK -->
+  <div class="sekcja">
+    <h3>Wycena Szafek</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Lp. / Szafka</th>
+          <th>Płyta Korpus</th>
+          <th>Płyta Front</th>
+          <th>Szerokość (mm)</th>
+          <th>Wysokość (mm)</th>
+          <th>Głębokość (mm)</th>
+          <th>Ilość Półek</th>
+          <th>Cena Korpus (zł/m²)</th>
+          <th>Cena Front (zł/m²)</th>
+          <th>Cena Całość (zł)</th>
+        </tr>
+      </thead>
+      <tbody id="tabela-szafek">
+        <!-- Wiersz 1 -->
+        <tr>
+          <td>1.1 SZAFKA 1</td>
+          <td>
+            <select class="plyta-korpus">
+              <option value="Sosna Słowiańska">Sosna Słowiańska</option>
+              <option value="Dąb Craft">Dąb Craft</option>
+            </select>
+          </td>
+          <td>
+            <select class="plyta-front">
+              <option value="Dąb Riviera K244">Dąb Riviera K244</option>
+              <option value="Biały Połysk">Biały Połysk</option>
+            </select>
+          </td>
+          <td><input type="number" class="szerokosc" value="500" oninput="obliczWiersz(this)"></td>
+          <td><input type="number" class="wysokosc" value="500" oninput="obliczWiersz(this)"></td>
+          <td><input type="number" class="glebokosc" value="300" oninput="obliczWiersz(this)"></td>
+          <td><input type="number" class="ilosc-polek" value="3" oninput="obliczWiersz(this)"></td>
+          <td><input type="number" class="cena-korpus" value="75" oninput="obliczWiersz(this)"></td>
+          <td><input type="number" class="cena-front" value="71" oninput="obliczWiersz(this)"></td>
+          <td><span class="cena-calosc">0.00</span> zł</td>
+        </tr>
+        <!-- Wiersz 2 -->
+        <tr>
+          <td>1.2 SZAFKA 2</td>
+          <td>
+            <select class="plyta-korpus">
+              <option value="Sosna Słowiańska">Sosna Słowiańska</option>
+              <option value="Dąb Craft">Dąb Craft</option>
+            </select>
+          </td>
+          <td>
+            <select class="plyta-front">
+              <option value="Dąb Riviera K244">Dąb Riviera K244</option>
+              <option value="Biały Połysk">Biały Połysk</option>
+            </select>
+          </td>
+          <td><input type="number" class="szerokosc" value="0" oninput="obliczWiersz(this)"></td>
+          <td><input type="number" class="wysokosc" value="0" oninput="obliczWiersz(this)"></td>
+          <td><input type="number" class="glebokosc" value="0" oninput="obliczWiersz(this)"></td>
+          <td><input type="number" class="ilosc-polek" value="0" oninput="obliczWiersz(this)"></td>
+          <td><input type="number" class="cena-korpus" value="75" oninput="obliczWiersz(this)"></td>
+          <td><input type="number" class="cena-front" value="71" oninput="obliczWiersz(this)"></td>
+          <td><span class="cena-calosc">0.00</span> zł</td>
+        </tr>
+      </tbody>
+    </table>
 
-          <section class="detail-panel">
-            <h2 class="group-title">Dane montażu</h2>
-            <div class="field-grid">
-              <div class="field">
-                <label for="form-date">Termin montażu</label>
-                <input class="sheet-input" id="form-date" type="date" data-form="date" data-testid="field-date" />
-              </div>
-              <div class="field">
-                <label for="form-place">Miejsce montażu</label>
-                <input class="sheet-input" id="form-place" data-form="place" data-testid="field-place" />
-              </div>
-              <div class="field">
-                <label for="form-note">Informacja do oferty</label>
-                <input class="sheet-input" id="form-note" data-form="note" data-testid="quote-note" />
-              </div>
-            </div>
-          </section>
-        </div>
+    <div class="podsumowanie">
+      Suma całkowita: <span id="suma-ostateczna">0.00</span> zł
+    </div>
+  </div>
 
-        <div class="type-strip">
-          <label for="form-quoteType">Wycena dla</label>
-          <select class="type-select" id="form-quoteType" data-form="quoteType" data-testid="quote-type">
-            <option value="">Wybierz rodzaj…</option>
-            <option>Kuchnia</option>
-            <option>Łazienka</option>
-            <option>Szafa wnękowa</option>
-            <option>Zabudowa</option>
-            <option>Inne</option>
-          </select>
-          <span class="sheet-note">Wartości obliczane automatycznie na podstawie wpisanych wymiarów i stawek.</span>
-        </div>
-
-        <div class="work-area">
-          <div class="table-wrap">
-            <table class="cabinet-table" aria-label="Lista szafek i wyliczenie kosztów">
-              <colgroup>
-                <col style="width:126px" /><col style="width:119px" /><col style="width:119px" />
-                <col style="width:61px" /><col style="width:61px" /><col style="width:61px" />
-                <col style="width:53px" /><col style="width:44px" /><col style="width:44px" />
-                <col style="width:55px" /><col style="width:55px" /><col style="width:72px" />
-                <col style="width:72px" /><col style="width:72px" /><col style="width:72px" />
-                <col style="width:72px" /><col style="width:42px" />
-              </colgroup>
-              <thead>
-                <tr>
-                  <th rowspan="2">ELEMENT / NAZWA</th>
-                  <th rowspan="2">PŁYTA KORPUSU</th>
-                  <th rowspan="2">DEKOR FRONTU</th>
-                  <th colspan="3">WYMIARY [mm]</th>
-                  <th rowspan="2">PÓŁKI<br />[szt.]</th>
-                  <th colspan="3" class="group-carcass">KORPUS + PÓŁKI</th>
-                  <th class="group-front">FRONT</th>
-                  <th colspan="5" class="group-price">CENA [zł]</th>
-                  <th rowspan="2" aria-label="Usuń pozycję"></th>
-                </tr>
-                <tr>
-                  <th>SZER.</th><th>WYS.</th><th>GŁĘB.</th><th>PLECY</th><th>LED</th>
-                  <th>POW.<br />m²</th><th>POW.<br />m²</th>
-                  <th>KORPUS</th><th>FRONT</th><th>RAZEM</th><th>PLECY<br />/ LED</th><th>MONTAŻ</th>
-                </tr>
-              </thead>
-              <tbody id="cabinet-rows"></tbody>
-            </table>
-            <div class="bottom-row">
-              <button class="add-row" id="add-cabinet" data-testid="add-cabinet" type="button">＋ Dodaj element</button>
-              <span class="row-count" id="row-count">Pozycji w zestawieniu: 0</span>
-            </div>
-          </div>
-          <aside class="swatch-panel" aria-label="Wybrane dekory">
-            <h3>Próbki dekorów</h3>
-            <div class="swatch-caption">Wybrane materiały<br />w aktualnym zestawieniu</div>
-            <div id="swatch-content"><div class="swatch-caption">Nie wybrano materiałów</div></div>
-          </aside>
-        </div>
-
-        <div class="totals">
-          <div class="totals-intro">
-            <div class="total-icon" aria-hidden="true">∑</div>
-            <div><strong>Podsumowanie wyceny</strong><span>obliczenia bieżące · bez podatku VAT</span></div>
-          </div>
-          <div class="total-box"><label>Pow. korpusu / półek</label><strong id="total-carcass-area"></strong></div>
-          <div class="total-box"><label>Powierzchnia frontów</label><strong id="total-front-area"></strong></div>
-          <div class="total-box"><label>Łączna wartość</label><strong id="total-price"></strong></div>
-        </div>
-      </section>
-
-      <section class="rates-panel" aria-label="Ustawienia stawek">
-        <button class="rates-head" id="rates-toggle" type="button" aria-expanded="true" aria-controls="rate-settings" data-testid="toggle-rates">
-          <span class="rates-head-left">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M3 20h18M6 20v-7l6-3 6 3v7M9 20v-5h6v5M5 10l7-6 7 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-            Ustawienia stawek <span class="sample-badge">Wpisz własne stawki</span>
-          </span>
-          <span id="rates-chevron" aria-hidden="true">⌃</span>
-        </button>
-        <div id="rate-settings">
-          <div class="rate-controls">
-            <div class="rate-field"><label for="rate-carcass">Płyta korpusowa · zł / m²</label><input class="sheet-input" id="rate-carcass" data-rate="carcass" data-testid="rate-carcass" type="number" min="0" step="0.5" /></div>
-            <div class="rate-field"><label for="rate-front">Płyta frontowa · zł / m²</label><input class="sheet-input" id="rate-front" data-rate="front" data-testid="rate-front" type="number" min="0" step="0.5" /></div>
-            <div class="rate-field"><label for="rate-labor">Robocizna / montaż · zł / m²</label><input class="sheet-input" id="rate-labor" data-rate="labor" data-testid="rate-labor" type="number" min="0" step="0.5" /></div>
-            <div class="rate-field"><label for="rate-shelf">Półka dodatkowa · zł / szt.</label><input class="sheet-input" id="rate-shelf" data-rate="shelf" data-testid="rate-shelf" type="number" min="0" step="0.5" /></div>
-            <div class="rate-field"><label for="rate-back">Plecy · zł / szt.</label><input class="sheet-input" id="rate-back" data-rate="back" data-testid="rate-back" type="number" min="0" step="0.5" /></div>
-            <div class="rate-field"><label for="rate-light">Podświetlenie LED · zł / szt.</label><input class="sheet-input" id="rate-light" data-rate="light" data-testid="rate-light" type="number" min="0" step="0.5" /></div>
-          </div>
-          <div class="formula-note">Wpisz własne stawki. Wycena orientacyjna: korpus liczy się z boków, wieńców i półek z 8% naddatkiem; cenę końcową zweryfikuj przed przekazaniem oferty.</div>
-        </div>
-      </section>
-
-      <div class="footerline">
-        <span>ARKUSZ ROBOCZY · ZAPIS LOKALNY W PRZEGLĄDARCE</span>
-        <span>Wszystkie kwoty w PLN</span>
-      </div>
-    </main>
-  </body>
+  <script src="skrypt.js"></script>
+</body>
 </html>
