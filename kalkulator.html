@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Kalkulator Wyceny Szafek</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f4f4f4;
+            color: #333;
+        }
+
+        h2 {
+            color: #222;
+        }
+
+        .sekcja {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 20px;
+            background-color: white;
+            border-radius: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            background: white;
+        }
+
+        th,
+        td {
+            border: 1px solid #aaa;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #e0e0e0;
+        }
+
+        input,
+        select {
+            width: 95%;
+            padding: 7px;
+            box-sizing: border-box;
+            border: 1px solid #aaa;
+            border-radius: 4px;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        .cena-calosc {
+            font-weight: bold;
+            color: #008000;
+        }
+
+        .podsumowanie {
+            font-size: 1.4em;
+            font-weight: bold;
+            margin-top: 20px;
+            padding: 15px;
+            background: #e8f5e9;
+            border: 1px solid #81c784;
+            border-radius: 6px;
+        }
+
+        #suma-ostateczna {
+            color: #008000;
+        }
+
+        .przycisk {
+            margin-top: 15px;
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .przycisk:hover {
+            background: #0056b3;
+        }
+
+        @media (max-width: 1200px) {
+            table {
+                font-size: 12px;
+            }
+
+            th,
+            td {
+                padding: 5px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Kalkulator Wyceny Mebli na Wymiar</h2>
+
+    <!-- DANE ZAMAWIAJĄCEGO -->
+    <div class="sekcja">
+
+        <h3>Dane Zamawiającego</h3>
+
+        <label>
+            Imię i Nazwisko:
+            <input
+                type="text"
+                id="klient"
+                value="Jan Kowalski"
+            >
+        </label>
+
+        <br><br>
+
+        <label>
+            Adres:
+            <input
+                type="text"
+                id="adres"
+                value="Spokojna 23/3"
+            >
+        </label>
+
+        <br><br>
+
+        <label>
+            Wycena dla:
+
+            <select id="pomieszczenie">
+                <option value="Kuchnia">Kuchnia</option>
+                <option value="Garderoba">Garderoba</option>
+                <option value="Łazienka">Łazienka</option>
+                <option value="Salon">Salon</option>
+                <option value="Sypialnia">Sypialnia</option>
+            </select>
+        </label>
+
+    </div>
+
+
+    <!-- TABELA -->
+    <div class="sekcja">
+
+        <h3>Wycena Szafek</h3>
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>Lp. / Szafka</th>
+                    <th>Płyta Korpus</th>
+                    <th>Płyta Front</th>
+                    <th>Szerokość (mm)</th>
+                    <th>Wysokość (mm)</th>
+                    <th>Głębokość (mm)</th>
+                    <th>Ilość Półek</th>
+                    <th>Cena Korpus (zł/m²)</th>
+                    <th>Cena Front (zł/m²)</th>
+                    <th>Cena Całość (zł)</th>
+                </tr>
+
+            </thead>
+
+
+            <tbody id="tabela-szafek">
+
+
+                <!-- SZAFKA 1 -->
+
+                <tr>
+
+                    <td>
+                        1.1 SZAFKA 1
+                    </td>
+
+                    <td>
+                        <select class="plyta-korpus">
+                            <option value="Sosna Słowiańska">
+                                Sosna Słowiańska
+                            </option>
+
+                            <option value="Dąb Craft">
+                                Dąb Craft
+                            </option>
+                        </select>
+                    </td>
+
+                    <td>
+                        <select class="plyta-front">
+
+                            <option value="Dąb Riviera K244">
+                                Dąb Riviera K244
+                            </option>
+
+                            <option value="Biały Połysk">
+                                Biały Połysk
+                            </option>
+
+                        </select>
+                    </td>
+
+                    <td>
+                        <input
+                            type="number"
+                            class="szerokosc"
+                            value="500"
+                            min="0"
+                            step="1"
+                        >
+                    </td>
+
+                    <td>
+                        <input
+                            type="number"
+                            class="wysokosc"
+                            value="500"
+                            min="0"
+                            step="1"
+                        >
+                    </td>
+
+                    <td>
+                        <input
+                            type="number"
+                            class="glebokosc"
+                            value="300"
+                            min="0"
+                            step="1"
+                        >
+                    </td>
+
+                    <td>
+                        <input
+                            type="number"
+                            class="ilosc-polek"
+                            value="3"
+                            min="0"
+                            step="1"
+                        >
+                    </td>
+
+                    <td>
+                        <input
+                            type="number"
+                            class="cena-korpus"
+                            value="75"
+                            min="0"
+                            step="0.01"
+                        >
+                    </td>
+
+                    <td>
+                        <input
+                            type="number"
+                            class="cena-front"
+                            value="71"
+                            min="0"
+                            step="0.01"
+                        >
+                    </td>
+
+                    <td>
+                        <span class="cena-calosc">
+                            0.00
+                        </span>
+                        zł
+                    </td>
+
+                </tr>
+
+
+                <!-- SZAFKA 2 -->
+
+                <tr>
+
+                    <td>
+                        1.2 SZAFKA 2
+                    </td>
+
+                    <td>
+                        <select class="plyta-korpus">
+
+                            <option value="Sosna Słowiańska">
+                                Sosna Słowiańska
+                            </option>
+
+                            <option value="Dąb Craft">
+                                Dąb Craft
+                            </option>
+
+                        </select>
+                    </td>
+
+                    <td>
+                        <select class="plyta-front">
+
+                            <option value="Dąb Riviera K244">
+                                Dąb Riviera K244
+                            </option>
+
+                            <option value="Biały Połysk">
+                                Biały Połysk
+                            </option>
+
+                        </select>
+                    </td>
+
+                    <td>
+                        <input
+                            type="number"
+                            class="szerokosc"
+                            value="0"
+                            min="0"
+                            step="1"
+                        >
+                    </td>
+
+                    <td>
+                        <input
+                            type="number"
+                            class="wysokosc"
+                            value="0"
+                            min="0"
+                            step="1"
+                        >
+                    </td>
+
+                    <td>
+                        <input
+                            type="number"
+                            class="glebokosc"
+                            value="0"
+                            min="0"
+                            step="1"
+                        >
+                    </td>
+
+                    <td>
+                        <input
+                            type="number"
+                            class="ilosc-polek"
+                            value="0"
+                            min="0"
+                            step="1"
+                        >
+                    </td>
+
+                    <td>
+                        <input
+                            type="number"
+                            class="cena-korpus"
+                            value="75"
+                            min="0"
+                            step="0.01"
+                        >
+                    </td>
+
+                    <td>
+                        <input
+                            type="number"
+                            class="cena-front"
+                            value="71"
+                            min="0"
+                            step="0.01"
+                        >
+                    </td>
+
+                    <td>
+                        <span class="cena-calosc">
+                            0.00
+                        </span>
+                        zł
+                    </td>
+
+                </tr>
+
+
+            </tbody>
+
+        </table>
+
+
+        <!-- SUMA -->
+
+        <div class="podsumowanie">
+
+            Suma całkowita:
+
+            <span id="suma-ostateczna">
+                0.00
+            </span>
+
+            zł
+
+        </div>
+
+    </div>
+
+
+    <!-- JAVASCRIPT -->
+
+    <script>
+
+        /*
+        =====================================================
+        FUNKCJA OBLICZAJĄCA POJEDYNCZY WIERSZ
+        =====================================================
+        */
+
+        function obliczWiersz(wiersz) {
+
+            // Pobieramy wartości z pól
+
+            const szer = parseFloat(
+                wiersz.querySelector('.szerokosc').value
+            ) || 0;
+
+            const wys = parseFloat(
+                wiersz.querySelector('.wysokosc').value
+            ) || 0;
+
+            const gleb = parseFloat(
+                wiersz.querySelector('.glebokosc').value
+            ) || 0;
+
+            const cenaKorpus = parseFloat(
+                wiersz.querySelector('.cena-korpus').value
+            ) || 0;
+
+            const cenaFront = parseFloat(
+                wiersz.querySelector('.cena-front').value
+            ) || 0;
+
+
+            /*
+            =================================================
+            PRZELICZENIE MM NA METRY
+            =================================================
+            */
+
+            const szerM = szer / 1000;
+            const wysM = wys / 1000;
+            const glebM = gleb / 1000;
+
+
+            /*
+            =================================================
+            POWIERZCHNIA FRONTU
+            =================================================
+            */
+
+            const powFront =
+                szerM * wysM;
+
+
+            /*
+            =================================================
+            POWIERZCHNIA KORPUSU
+
+            2 boki:
+            wysokość × głębokość
+
+            2 elementy:
+            szerokość × głębokość
+            =================================================
+            */
+
+            const powBoki =
+                (2 * wysM * glebM) +
+                (2 * szerM * glebM);
+
+
+            /*
+            =================================================
+            KOSZT FRONTU
+            =================================================
+            */
+
+            const kosztFrontu =
+                powFront * cenaFront;
+
+
+            /*
+            =================================================
+            KOSZT KORPUSU
+            =================================================
+            */
+
+            const kosztKorpusu =
+                powBoki * cenaKorpus;
+
+
+            /*
+            =================================================
+            CENA CAŁEJ SZAFKI
+            =================================================
+            */
+
+            const cenaCalkowita =
+                kosztFrontu + kosztKorpusu;
+
+
+            /*
+            =================================================
+            WYŚWIETLENIE CENY
+            =================================================
+            */
+
+            wiersz.querySelector('.cena-calosc').textContent =
+                cenaCalkowita.toFixed(2);
+
+
+            /*
+            =================================================
+            PRZELICZENIE SUMY
+            =================================================
+            */
+
+            obliczSumeCalkowita();
+        }
+
+
+        /*
+        =====================================================
+        SUMA WSZYSTKICH SZAFEK
+        =====================================================
+        */
+
+        function obliczSumeCalkowita() {
+
+            let suma = 0;
+
+
+            document
+                .querySelectorAll('.cena-calosc')
+                .forEach(function(span) {
+
+                    suma +=
+                        parseFloat(span.textContent) || 0;
+
+                });
+
+
+            document
+                .getElementById('suma-ostateczna')
+                .textContent =
+                suma.toFixed(2);
+        }
+
+
+        /*
+        =====================================================
+        AUTOMATYCZNE REAGOWANIE NA ZMIANY
+        =====================================================
+        */
+
+        document
+            .querySelectorAll('#tabela-szafek input, #tabela-szafek select')
+            .forEach(function(element) {
+
+                element.addEventListener('input', function() {
+
+                    const wiersz =
+                        element.closest('tr');
+
+                    obliczWiersz(wiersz);
+
+                });
+
+
+                element.addEventListener('change', function() {
+
+                    const wiersz =
+                        element.closest('tr');
+
+                    obliczWiersz(wiersz);
+
+                });
+
+            });
+
+
+        /*
+        =====================================================
+        OBLICZENIE WSZYSTKICH WIERSZY PO URUCHOMIENIU
+        =====================================================
+        */
+
+        document.addEventListener(
+            'DOMContentLoaded',
+            function() {
+
+                document
+                    .querySelectorAll('#tabela-szafek tr')
+                    .forEach(function(wiersz) {
+
+                        obliczWiersz(wiersz);
+
+                    });
+
+            }
+        );
+
+    </script>
+
+</body>
+</html>
