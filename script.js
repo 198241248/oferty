@@ -49,4 +49,19 @@ window.onload = function() {
   if (pierwszyPierwiastek) {
     obliczWiersz(pierwszyPierwiastek);
   }
+  document.addEventListener('DOMContentLoaded', () => {
+  // Przelicz wiersz po zmianie dowolnego pola z ceną lub wymiarem
+  document.addEventListener('input', (event) => {
+    if (event.target.matches(
+      '.szerokosc, .wysokosc, .glebokosc, .cena-korpus, .cena-front'
+    )) {
+      obliczWiersz(event.target);
+    }
+  });
+  // Przelicz wszystkie wiersze po załadowaniu strony
+  document.querySelectorAll('tr').forEach((wiersz) => {
+    const pole = wiersz.querySelector('.szerokosc');
+    if (pole) obliczWiersz(pole);
+  });
+});
 };
